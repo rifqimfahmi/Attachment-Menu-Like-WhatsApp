@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -17,7 +18,7 @@ class SoftKeyBoardPopup(
     private val context: Context,
     private val rootView: ViewGroup,
     private val editText: EditText
-) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener, View.OnFocusChangeListener {
+) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener {
 
     private lateinit var view: View
 
@@ -34,27 +35,20 @@ class SoftKeyBoardPopup(
         initMenuView()
     }
 
-    private fun initEditText() {
-        editText.onFocusChangeListener = this
-        editText.setOnClickListener {
-            showKeyBoard()
-        }
-    }
-
     private fun initConfig() {
         softInputMode = LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
         setBackgroundDrawable(null)
     }
 
-    private fun initKeyboardListener() {
-        rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
+    private fun initEditText() {
+        editText.setOnClickListener {
+            showKeyBoard()
+        }
     }
 
-    override fun onFocusChange(view: View?, hasFocus: Boolean) {
-        if (view is EditText) {
-            Log.d("HAS_FOCUS", hasFocus.toString())
-        }
+    private fun initKeyboardListener() {
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
     }
 
     override fun onGlobalLayout() {
@@ -77,15 +71,6 @@ class SoftKeyBoardPopup(
         }
     }
 
-    private fun getStatusBarHeight(): Int {
-        var height = 0
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            height = context.resources.getDimensionPixelSize(resourceId)
-        }
-        return height
-    }
-
     private fun getScreenHeight(): Int {
         val metrics = DisplayMetrics()
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -95,9 +80,18 @@ class SoftKeyBoardPopup(
         return metrics.heightPixels
     }
 
+    private fun getStatusBarHeight(): Int {
+        var height = 0
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            height = context.resources.getDimensionPixelSize(resourceId)
+        }
+        return height
+    }
+
     @SuppressLint("InflateParams")
     private fun initMenuView() {
-        val view = LayoutInflater
+        view = LayoutInflater
             .from(context)
             .inflate(R.layout.menu_soft_keyboard, rootView, false)
 
@@ -127,6 +121,14 @@ class SoftKeyBoardPopup(
         editText.requestFocus()
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    fun clear() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        } else {
+            rootView.viewTreeObserver.removeGlobalOnLayoutListener(this)
+        }
     }
 
 }

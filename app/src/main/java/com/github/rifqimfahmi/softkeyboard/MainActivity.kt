@@ -40,4 +40,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        menuKeyboard.clear()
+        super.onDestroy()
+    }
 }
