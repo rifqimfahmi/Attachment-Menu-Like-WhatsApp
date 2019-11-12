@@ -20,11 +20,11 @@
             android:padding="6dp"
             app:srcCompat="@android:drawable/ic_menu_add" />
 
-        <EditText
+        <com.github.rifqimfahmi.softkeyboard.MenuEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="Text" />
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </RelativeLayout>

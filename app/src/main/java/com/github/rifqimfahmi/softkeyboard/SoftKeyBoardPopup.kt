@@ -44,7 +44,7 @@ class SoftKeyBoardPopup(
     }
 
     private fun initAnimation() {
-        animationStyle = R.style.PopupContextAnimation
+//        animationStyle = R.style.PopupContextAnimation
     }
 
     private fun initEditText() {
