@@ -7,7 +7,6 @@ import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
@@ -23,6 +22,7 @@ class SoftKeyBoardPopup(
     private lateinit var view: View
 
     private var isKeyboardOpened = false
+    private var showPending = false
     private var DEFAULT_KEYBOARD_HEIGHT =
         (281 * Resources.getSystem().displayMetrics.density).toInt()
     private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
@@ -65,6 +65,10 @@ class SoftKeyBoardPopup(
             keyboardHeight = heightDifference
             setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
             isKeyboardOpened = true
+            if (showPending) {
+                showPending = false
+                show()
+            }
         } else {
             dismiss()
             isKeyboardOpened = false
@@ -105,9 +109,11 @@ class SoftKeyBoardPopup(
 
     fun show() {
         if (!isKeyboardOpened) {
+            showPending = true
             openKeyboard()
+        } else {
+            showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
         }
-        showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
     }
 
     private fun showKeyBoard() {
