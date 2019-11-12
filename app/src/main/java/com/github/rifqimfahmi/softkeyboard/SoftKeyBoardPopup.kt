@@ -30,6 +30,7 @@ class SoftKeyBoardPopup(
 
     init {
         initConfig()
+        initAnimation()
         initEditText()
         initKeyboardListener()
         initMenuView()
@@ -39,6 +40,10 @@ class SoftKeyBoardPopup(
         softInputMode = LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
         setBackgroundDrawable(null)
+    }
+
+    private fun initAnimation() {
+        animationStyle = R.style.PopupContextAnimation
     }
 
     private fun initEditText() {
