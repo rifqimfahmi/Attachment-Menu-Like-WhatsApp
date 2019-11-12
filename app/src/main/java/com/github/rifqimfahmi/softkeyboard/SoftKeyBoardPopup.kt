@@ -104,6 +104,10 @@ class SoftKeyBoardPopup(
             .from(context)
             .inflate(R.layout.menu_soft_keyboard, rootView, false)
 
+        view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            revealView()
+        }
+
         contentView = view
     }
 
@@ -119,6 +123,18 @@ class SoftKeyBoardPopup(
         } else {
             showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
         }
+    }
+
+    @SuppressLint("NewApi")
+    private fun revealView() {
+        val w = contentView.width
+        val h = contentView.height
+        val maxRadius = w
+        val animator = ViewAnimationUtils.createCircularReveal(contentView, 100, 0, 0f,
+            maxRadius.toFloat()
+        )
+        contentView.visibility = View.VISIBLE
+        animator.start()
     }
 
     private fun showKeyBoard() {
