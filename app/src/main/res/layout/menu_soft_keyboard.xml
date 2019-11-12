@@ -4,14 +4,14 @@
     xmlns:grid="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:background="#32000000"
+    android:background="@android:color/white"
     grid:alignmentMode="alignMargins"
     grid:columnCount="3"
     grid:rowCount="2"
     grid:useDefaultMargins="false">
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         grid:layout_columnWeight="1"
         grid:layout_rowWeight="1" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         grid:layout_columnWeight="1"
         grid:layout_rowWeight="1" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         grid:layout_columnWeight="1"
         grid:layout_rowWeight="1" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         grid:layout_columnWeight="1"
         grid:layout_rowWeight="1" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         grid:layout_columnWeight="1"
         grid:layout_rowWeight="1" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
