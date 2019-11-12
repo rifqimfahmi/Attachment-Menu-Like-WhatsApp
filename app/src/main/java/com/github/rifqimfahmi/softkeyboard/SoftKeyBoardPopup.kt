@@ -32,9 +32,10 @@ class SoftKeyBoardPopup(
     private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
     private val KEYBOARD_OFFSET = 100
 
+    var useAnimation = false
+
     init {
         initConfig()
-        initAnimation()
         initEditText()
         initKeyboardListener()
         initMenuView()
@@ -44,10 +45,6 @@ class SoftKeyBoardPopup(
         softInputMode = LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
         setBackgroundDrawable(null)
-    }
-
-    private fun initAnimation() {
-//        animationStyle = R.style.PopupContextAnimation
     }
 
     private fun initEditText() {
@@ -109,7 +106,9 @@ class SoftKeyBoardPopup(
             .inflate(R.layout.menu_soft_keyboard, rootView, false)
 
         view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-            revealView()
+            if (useAnimation) {
+                revealView()
+            }
         }
 
         contentView = view
@@ -138,7 +137,6 @@ class SoftKeyBoardPopup(
             contentView, 65, 0, 0f,
             maxRadius.toFloat()
         )
-        contentView.visibility = View.VISIBLE
         animator.start()
     }
 
@@ -165,6 +163,10 @@ class SoftKeyBoardPopup(
 
     @SuppressLint("NewApi")
     override fun dismiss() {
+        if (!useAnimation) {
+            super.dismiss()
+            return
+        }
         if (!isShowing) return
         val w = contentView.width
         val h = contentView.height
@@ -180,9 +182,5 @@ class SoftKeyBoardPopup(
             super.dismiss()
         })
         animator.start()
-    }
-
-    @SuppressLint("NewApi")
-    private fun reverseReveal() {
     }
 }
