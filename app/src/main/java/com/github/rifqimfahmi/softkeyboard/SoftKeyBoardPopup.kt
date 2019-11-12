@@ -9,10 +9,13 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.WindowManager.LayoutParams
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.animation.addListener
+import kotlin.math.sqrt
 
 class SoftKeyBoardPopup(
     private val context: Context,
@@ -130,9 +133,9 @@ class SoftKeyBoardPopup(
     private fun revealView() {
         val w = contentView.width
         val h = contentView.height
-        val maxRadius = w
+        val maxRadius = sqrt((w * w + h * h).toDouble())
         val animator = ViewAnimationUtils.createCircularReveal(
-            contentView, 100, 0, 0f,
+            contentView, 65, 0, 0f,
             maxRadius.toFloat()
         )
         contentView.visibility = View.VISIBLE
@@ -165,10 +168,10 @@ class SoftKeyBoardPopup(
         if (!isShowing) return
         val w = contentView.width
         val h = contentView.height
-        val maxRadius = w
+        val maxRadius = sqrt((w * w + h * h).toDouble())
         val animator = ViewAnimationUtils.createCircularReveal(
             contentView,
-            100,
+            65,
             0,
             maxRadius.toFloat(),
             0f
@@ -176,10 +179,7 @@ class SoftKeyBoardPopup(
         animator.addListener(onEnd = {
             super.dismiss()
         })
-//        contentView.visibility = View.INVISIBLE
         animator.start()
-//        reverseReveal()
-//        super.dismiss()
     }
 
     @SuppressLint("NewApi")
