@@ -76,8 +76,9 @@ class SoftKeyBoardPopup(
                 show()
             }
         } else {
-            dismiss()
             isKeyboardOpened = false
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+            dismiss()
         }
     }
 
@@ -121,11 +122,23 @@ class SoftKeyBoardPopup(
 
     fun show() {
         if (!isKeyboardOpened) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
+                return
+            }
             showPending = true
             openKeyboard()
         } else {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                hideKeyboard()
+            }
             showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(editText.windowToken, 0)
     }
 
     private fun revealView() {
