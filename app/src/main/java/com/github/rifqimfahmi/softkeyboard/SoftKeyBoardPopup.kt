@@ -128,8 +128,8 @@ class SoftKeyBoardPopup(
         }
     }
 
-    @SuppressLint("NewApi")
     private fun revealView() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         val w = contentView.width
         val h = contentView.height
         val maxRadius = sqrt((w * w + h * h).toDouble())
@@ -161,9 +161,8 @@ class SoftKeyBoardPopup(
         }
     }
 
-    @SuppressLint("NewApi")
     override fun dismiss() {
-        if (!useAnimation) {
+        if (!useAnimation || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             super.dismiss()
             return
         }
