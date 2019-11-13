@@ -195,4 +195,9 @@ class SoftKeyBoardPopup(
         })
         animator.start()
     }
+
+    fun updateMenuCount(value: Int) {
+        val rv: MenuRecyclerView = view.findViewById(R.id.rvMenu)
+        rv.updateDataCount(value)
+    }
 }

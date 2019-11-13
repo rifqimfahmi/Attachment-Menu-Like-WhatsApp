@@ -8,13 +8,62 @@
     tools:context=".MainActivity">
 
     <CheckBox
+        android:id="@+id/animationCheckBox"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:gravity="center"
-        android:id="@+id/animationCheckBox"
-        />
+        android:visibility="gone" />
+
+    <RadioGroup
+        android:id="@+id/rdGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/compose">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="2" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="4" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="6" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="8" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="10" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="12" />
+
+    </RadioGroup>
 
     <LinearLayout
+        android:id="@+id/compose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

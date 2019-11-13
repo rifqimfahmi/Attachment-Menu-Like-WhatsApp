@@ -53,4 +53,7 @@ class MenuRecyclerView: RecyclerView {
         })
     }
 
+    fun updateDataCount(value: Int) {
+        adapter.updateDataCount(value)
+    }
 }

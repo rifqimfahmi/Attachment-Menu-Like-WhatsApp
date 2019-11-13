@@ -18,16 +18,30 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
         Menu("Voucher", R.drawable.voucher)
     )
 
+    private val data = ArrayList<Menu>().apply {
+        addAll(menus)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         return MenuViewHolder.create(parent, viewType)
     }
 
     override fun getItemCount(): Int {
-        return menus.size
+        return data.size
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(menus[position])
+        holder.bind(data[position])
+    }
+
+    fun updateDataCount(value: Int) {
+        data.clear()
+        val number = menus.size - 1
+        for (i in 0 until value) {
+            val randomIndex = (0..number).random()
+            data.add(menus[randomIndex])
+        }
+        notifyDataSetChanged()
     }
 
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
