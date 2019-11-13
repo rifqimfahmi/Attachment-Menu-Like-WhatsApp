@@ -3,18 +3,19 @@ package com.github.rifqimfahmi.softkeyboard
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_menu.view.*
 
 class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
 
     private val menus = arrayListOf(
-        Menu("Voucher"),
-        Menu("Voucher"),
-        Menu("Voucher"),
-        Menu("Voucher"),
-        Menu("Voucher"),
-        Menu("Voucher"),
-        Menu("Voucher")
+        Menu("Produk", R.drawable.ic_group_2),
+        Menu("Gambar", R.drawable.gambar),
+        Menu("PDF", R.drawable.pdf),
+        Menu("Invoice", R.drawable.invoice),
+        Menu("Voucher", R.drawable.voucher)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
@@ -32,7 +33,10 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(menu: Menu) {
-
+            with(itemView) {
+                tvTitle.text = menu.name
+                ivIcon.setImageDrawable(ContextCompat.getDrawable(context, menu.drawable))
+            }
         }
 
         companion object {
@@ -44,7 +48,7 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
         }
     }
 
-    data class Menu(private val name: String) {
+    data class Menu(val name: String, @DrawableRes val drawable: Int) {
 
     }
 }
