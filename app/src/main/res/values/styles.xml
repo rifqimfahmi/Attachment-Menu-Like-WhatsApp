@@ -6,10 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="PopupContextAnimation" parent="android:Animation" mce_bogus="1">
-        <item name="android:windowEnterAnimation">@anim/popup_context_in</item>
+        <item name="android:windowBackground">@drawable/default_wallpaper</item>
     </style>
 
 </resources>

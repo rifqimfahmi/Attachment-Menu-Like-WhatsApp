@@ -32,8 +32,6 @@ class SoftKeyBoardPopup(
     private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
     private val KEYBOARD_OFFSET = 100
 
-    var useAnimation = false
-
     init {
         initConfig()
         initEditText()
@@ -107,9 +105,7 @@ class SoftKeyBoardPopup(
             .inflate(R.layout.menu_soft_keyboard, rootView, false)
 
         view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-            if (useAnimation) {
-                revealView()
-            }
+            revealView()
         }
 
         contentView = view
@@ -175,7 +171,7 @@ class SoftKeyBoardPopup(
     }
 
     override fun dismiss() {
-        if (!useAnimation || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             super.dismiss()
             return
         }
