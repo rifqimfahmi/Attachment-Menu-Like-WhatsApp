@@ -6,13 +6,13 @@ object ChatUtil {
     fun createDummy(): List<Chat> {
         return arrayListOf(
             Chat("Hola!"),
-            Chat("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
-            Chat("Praesent vel velit at neque scelerisque porttitor eu sed massa!"),
+            Chat("Lorem ipsum dolor sit amet."),
+            Chat("Praesent vel velit at neque scelerisque!"),
             Chat("Quisque varius porttitor varius. Vestibulum sodales tempor lectus. Pellentesque aliquet augue ac ante malesuada hendrerit!"),
-            Chat("Suspendisse dapibus nulla ut turpis eleifend, scelerisque pharetra velit convallis. Praesent ultrices justo non augue volutpat imperdiet!"),
+            Chat("Suspendisse dapibus nulla"),
             Chat("Maecenas aliquam odio ac ultricies fringilla!"),
-            Chat("Donec viverra sodales risus, id pellentesque sem accumsan ut!"),
-            Chat("Ut euismod, est vitae vulputate mattis, neque lectus condimentum orci!"),
+            Chat("Donec viverra sodales risus, id pellentesq!"),
+            Chat("Ut euismod, est vitae vulputate mat."),
             Chat("Nam gravida, sapien et pulvinar egestas!"),
             Chat("Integer egestas arcu quis velit varius vulputate!"),
             Chat("Phasellus pellentesque metus vitae massa dapibus, sit amet dignissim orci efficitur. Praesent aliquam felis vel eleifend tincidunt!"),
