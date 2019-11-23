@@ -1,9 +1,7 @@
 package com.github.rifqimfahmi.softkeyboard
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
@@ -13,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.animation.addListener
+import com.github.rifqimfahmi.softkeyboard.util.toPx
 import kotlin.math.sqrt
 
 class SoftKeyBoardPopup(
@@ -24,12 +23,12 @@ class SoftKeyBoardPopup(
 
     private lateinit var view: View
 
-    private var isKeyboardOpened = false
-    private var showPending = false
-    private var DEFAULT_KEYBOARD_HEIGHT =
-        (281 * Resources.getSystem().displayMetrics.density).toInt()
-    private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
+    private var DEFAULT_KEYBOARD_HEIGHT = 281.toPx()
     private val KEYBOARD_OFFSET = 100
+
+    private var isKeyboardOpened = false
+    private var isShowAtTop = false
+    private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
 
     init {
         initConfig()
@@ -81,10 +80,6 @@ class SoftKeyBoardPopup(
             keyboardHeight = heightDifference
             setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
             isKeyboardOpened = true
-            if (showPending) {
-                showPending = false
-                show()
-            }
         } else {
             isKeyboardOpened = false
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
@@ -98,10 +93,11 @@ class SoftKeyBoardPopup(
             return
         }
         if (!isShowing) return
-        val centerX = calculateAnchorCenter()
+        val centerX = calculateCenterX()
         val endRadius = calculateRadius(centerX)
+        val centerY = calculateCenterY()
         val animator = ViewAnimationUtils.createCircularReveal(
-            contentView, centerX, 0, endRadius, 0f
+            contentView, centerX, centerY, endRadius, 0f
         )
         animator.addListener(onEnd = {
             super.dismiss()
@@ -134,18 +130,25 @@ class SoftKeyBoardPopup(
 
     fun show() {
         if (!isKeyboardOpened) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
-                return
-            }
-            showPending = true
-            openKeyboard()
+            showAtTop()
         } else {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                hideKeyboard()
-            }
-            showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
+            showOverKeyboard()
         }
+    }
+
+    private fun showAtTop() {
+        isShowAtTop = true
+        setSize(rootView.width - 16.toPx(), keyboardHeight)
+        val y = (rootView.height - anchorView.top) * 2
+        showAtLocation(rootView, Gravity.BOTTOM, 0, y)
+    }
+
+    private fun showOverKeyboard() {
+        isShowAtTop = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            hideKeyboard()
+        }
+        showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
     }
 
     private fun hideKeyboard() {
@@ -155,12 +158,21 @@ class SoftKeyBoardPopup(
 
     private fun revealView() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-        val centerX = calculateAnchorCenter()
+        val centerX = calculateCenterX()
+        val centerY = calculateCenterY()
         val endRadius = calculateRadius(centerX)
         val animator = ViewAnimationUtils.createCircularReveal(
-            contentView, centerX, 0, 0f, endRadius
+            contentView, centerX, centerY, 0f, endRadius
         )
         animator.start()
+    }
+
+    private fun calculateCenterY(): Int {
+        var centerY = 0
+        if (isShowAtTop) {
+            centerY = view.bottom
+        }
+        return centerY
     }
 
     private fun calculateRadius(centerX: Int): Float {
@@ -168,7 +180,7 @@ class SoftKeyBoardPopup(
         return sqrt((centerX * centerX + h * h).toDouble()).toFloat()
     }
 
-    private fun calculateAnchorCenter(): Int {
+    private fun calculateCenterX(): Int {
         val viewCenter = anchorView.width / 2
         return anchorView.left + viewCenter
     }
@@ -177,13 +189,6 @@ class SoftKeyBoardPopup(
         if (isShowing) {
             dismiss()
         }
-    }
-
-    private fun openKeyboard() {
-        editText.isFocusableInTouchMode = true
-        editText.requestFocus()
-        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
 
     fun clear() {
