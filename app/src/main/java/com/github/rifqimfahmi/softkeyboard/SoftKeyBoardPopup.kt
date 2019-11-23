@@ -150,8 +150,11 @@ class SoftKeyBoardPopup(
         isShowAtTop = true
         isFocusable = true
         setSize(rootView.width - 16.toPx(), keyboardHeight)
-        val y = (rootView.height - anchorView.top) * 2
-        showAtLocation(rootView, Gravity.BOTTOM, 0, y)
+        val windowRect = Rect().apply {
+            rootView.getWindowVisibleDisplayFrame(this)
+        }
+        val y = windowRect.bottom - keyboardHeight - (rootView.bottom - anchorView.top) - 6.toPx()
+        showAtLocation(rootView, Gravity.TOP, 0, y)
     }
 
     private fun showOverKeyboard() {

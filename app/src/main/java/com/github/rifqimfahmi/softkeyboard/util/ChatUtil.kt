@@ -5,7 +5,7 @@ import com.github.rifqimfahmi.softkeyboard.adapter.Chat
 object ChatUtil {
     fun createDummy(): List<Chat> {
         return arrayListOf(
-            Chat("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique massa ante, sit amet mollis sem fringilla a. Curabitur fringilla, lorem et commodo suscipit,!"),
+            Chat("Hola!"),
             Chat("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
             Chat("Praesent vel velit at neque scelerisque porttitor eu sed massa!"),
             Chat("Quisque varius porttitor varius. Vestibulum sodales tempor lectus. Pellentesque aliquet augue ac ante malesuada hendrerit!"),
