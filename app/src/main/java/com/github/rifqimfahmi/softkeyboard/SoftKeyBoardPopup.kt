@@ -9,8 +9,6 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.WindowManager.LayoutParams
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
@@ -20,7 +18,8 @@ import kotlin.math.sqrt
 class SoftKeyBoardPopup(
     private val context: Context,
     private val rootView: ViewGroup,
-    private val editText: EditText
+    private val editText: EditText,
+    private val anchorView: View
 ) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener {
 
     private lateinit var view: View
@@ -55,6 +54,19 @@ class SoftKeyBoardPopup(
         rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
     }
 
+    @SuppressLint("InflateParams")
+    private fun initMenuView() {
+        view = LayoutInflater
+            .from(context)
+            .inflate(R.layout.menu_soft_keyboard, rootView, false)
+
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            revealView()
+        }
+
+        contentView = view
+    }
+
     override fun onGlobalLayout() {
         val screenHeight = getScreenHeight()
         val windowRect = Rect().apply {
@@ -80,6 +92,23 @@ class SoftKeyBoardPopup(
         }
     }
 
+    override fun dismiss() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            super.dismiss()
+            return
+        }
+        if (!isShowing) return
+        val centerX = calculateAnchorCenter()
+        val endRadius = calculateRadius(centerX)
+        val animator = ViewAnimationUtils.createCircularReveal(
+            contentView, centerX, 0, endRadius, 0f
+        )
+        animator.addListener(onEnd = {
+            super.dismiss()
+        })
+        animator.start()
+    }
+
     private fun getScreenHeight(): Int {
         val metrics = DisplayMetrics()
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -96,19 +125,6 @@ class SoftKeyBoardPopup(
             height = context.resources.getDimensionPixelSize(resourceId)
         }
         return height
-    }
-
-    @SuppressLint("InflateParams")
-    private fun initMenuView() {
-        view = LayoutInflater
-            .from(context)
-            .inflate(R.layout.menu_soft_keyboard, rootView, false)
-
-        view.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-            revealView()
-        }
-
-        contentView = view
     }
 
     private fun setSize(width: Int, height: Int) {
@@ -139,14 +155,22 @@ class SoftKeyBoardPopup(
 
     private fun revealView() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-        val w = contentView.width
-        val h = contentView.height
-        val maxRadius = sqrt((w * w + h * h).toDouble())
+        val centerX = calculateAnchorCenter()
+        val endRadius = calculateRadius(centerX)
         val animator = ViewAnimationUtils.createCircularReveal(
-            contentView, 65, 0, 0f,
-            maxRadius.toFloat()
+            contentView, centerX, 0, 0f, endRadius
         )
         animator.start()
+    }
+
+    private fun calculateRadius(centerX: Int): Float {
+        val h = contentView.height
+        return sqrt((centerX * centerX + h * h).toDouble()).toFloat()
+    }
+
+    private fun calculateAnchorCenter(): Int {
+        val viewCenter = anchorView.width / 2
+        return anchorView.left + viewCenter
     }
 
     private fun showKeyBoard() {
@@ -168,28 +192,6 @@ class SoftKeyBoardPopup(
         } else {
             rootView.viewTreeObserver.removeGlobalOnLayoutListener(this)
         }
-    }
-
-    override fun dismiss() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            super.dismiss()
-            return
-        }
-        if (!isShowing) return
-        val w = contentView.width
-        val h = contentView.height
-        val maxRadius = sqrt((w * w + h * h).toDouble())
-        val animator = ViewAnimationUtils.createCircularReveal(
-            contentView,
-            95,
-            0,
-            maxRadius.toFloat(),
-            0f
-        )
-        animator.addListener(onEnd = {
-            super.dismiss()
-        })
-        animator.start()
     }
 
     fun updateMenuCount(value: Int) {

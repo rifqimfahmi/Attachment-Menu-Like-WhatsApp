@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), MenuEditText.PopupListener {
 
         editText.popupListener = this
 
-        menuKeyboard = SoftKeyBoardPopup(this, rootView, editText)
+        menuKeyboard = SoftKeyBoardPopup(this, rootView, editText, menu_chat)
 
         menu_chat.setOnClickListener {
             toggle()
