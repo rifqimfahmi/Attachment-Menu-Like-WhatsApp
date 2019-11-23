@@ -28,6 +28,7 @@ class SoftKeyBoardPopup(
 
     private var isKeyboardOpened = false
     private var isShowAtTop = false
+    private var isDismissing = false
     private var keyboardHeight = DEFAULT_KEYBOARD_HEIGHT
 
     init {
@@ -41,6 +42,14 @@ class SoftKeyBoardPopup(
         softInputMode = LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
         setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
         setBackgroundDrawable(null)
+        isOutsideTouchable = true
+        setTouchInterceptor { _, event ->
+            if (event.action == MotionEvent.ACTION_OUTSIDE) {
+                dismiss()
+                return@setTouchInterceptor true
+            }
+            return@setTouchInterceptor false
+        }
     }
 
     private fun initEditText() {
@@ -66,6 +75,14 @@ class SoftKeyBoardPopup(
         contentView = view
     }
 
+    fun show() {
+        if (!isKeyboardOpened) {
+            showAtTop()
+        } else {
+            showOverKeyboard()
+        }
+    }
+
     override fun onGlobalLayout() {
         val screenHeight = getScreenHeight()
         val windowRect = Rect().apply {
@@ -78,7 +95,6 @@ class SoftKeyBoardPopup(
 
         if (heightDifference > KEYBOARD_OFFSET) {
             keyboardHeight = heightDifference
-            setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
             isKeyboardOpened = true
         } else {
             isKeyboardOpened = false
@@ -88,11 +104,12 @@ class SoftKeyBoardPopup(
     }
 
     override fun dismiss() {
+        if (isDismissing || !isShowing) return
+        isDismissing = true
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             super.dismiss()
             return
         }
-        if (!isShowing) return
         val centerX = calculateCenterX()
         val endRadius = calculateRadius(centerX)
         val centerY = calculateCenterY()
@@ -101,6 +118,7 @@ class SoftKeyBoardPopup(
         )
         animator.addListener(onEnd = {
             super.dismiss()
+            isDismissing = false
         })
         animator.start()
     }
@@ -128,16 +146,9 @@ class SoftKeyBoardPopup(
         setHeight(height)
     }
 
-    fun show() {
-        if (!isKeyboardOpened) {
-            showAtTop()
-        } else {
-            showOverKeyboard()
-        }
-    }
-
     private fun showAtTop() {
         isShowAtTop = true
+        isFocusable = true
         setSize(rootView.width - 16.toPx(), keyboardHeight)
         val y = (rootView.height - anchorView.top) * 2
         showAtLocation(rootView, Gravity.BOTTOM, 0, y)
@@ -145,9 +156,11 @@ class SoftKeyBoardPopup(
 
     private fun showOverKeyboard() {
         isShowAtTop = false
+        isFocusable = false
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             hideKeyboard()
         }
+        setSize(LayoutParams.MATCH_PARENT, keyboardHeight)
         showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
     }
 
