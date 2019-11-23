@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.rifqimfahmi.softkeyboard.adapter.ChatAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity(), MenuEditText.PopupListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initDummyChat()
 
         rootView = findViewById(R.id.rootView)
         parentView = findViewById<View>(android.R.id.content)
@@ -29,6 +32,14 @@ class MainActivity : AppCompatActivity(), MenuEditText.PopupListener {
 
         menu_chat.setOnClickListener {
             toggle()
+        }
+    }
+
+    private fun initDummyChat() {
+        with (rvChat) {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, true)
+            adapter = ChatAdapter()
         }
     }
 
