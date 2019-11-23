@@ -185,7 +185,7 @@ class SoftKeyBoardPopup(
         val maxRadius = sqrt((w * w + h * h).toDouble())
         val animator = ViewAnimationUtils.createCircularReveal(
             contentView,
-            65,
+            95,
             0,
             maxRadius.toFloat(),
             0f
