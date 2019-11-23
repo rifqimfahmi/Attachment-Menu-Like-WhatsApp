@@ -1,4 +1,4 @@
-package com.github.rifqimfahmi.softkeyboard
+package com.github.rifqimfahmi.softkeyboard.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.animation.addListener
+import com.github.rifqimfahmi.softkeyboard.R
 import com.github.rifqimfahmi.softkeyboard.util.toPx
 import kotlin.math.sqrt
 

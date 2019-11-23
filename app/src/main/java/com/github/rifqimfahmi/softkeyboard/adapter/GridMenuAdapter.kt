@@ -1,4 +1,4 @@
-package com.github.rifqimfahmi.softkeyboard
+package com.github.rifqimfahmi.softkeyboard.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,16 +6,32 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.github.rifqimfahmi.softkeyboard.R
 import kotlinx.android.synthetic.main.item_menu.view.*
 
 class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
 
     private val menus = arrayListOf(
-        Menu("Produk", R.drawable.ic_group_2),
-        Menu("Gambar", R.drawable.gambar),
-        Menu("PDF", R.drawable.pdf),
-        Menu("Invoice", R.drawable.invoice),
-        Menu("Voucher", R.drawable.voucher)
+        Menu(
+            "Produk",
+            R.drawable.ic_group_2
+        ),
+        Menu(
+            "Gambar",
+            R.drawable.gambar
+        ),
+        Menu(
+            "PDF",
+            R.drawable.pdf
+        ),
+        Menu(
+            "Invoice",
+            R.drawable.invoice
+        ),
+        Menu(
+            "Voucher",
+            R.drawable.voucher
+        )
     )
 
     private val data = ArrayList<Menu>().apply {
@@ -23,7 +39,10 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        return MenuViewHolder.create(parent, viewType)
+        return MenuViewHolder.create(
+            parent,
+            viewType
+        )
     }
 
     override fun getItemCount(): Int {
@@ -57,7 +76,13 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
             val LAYOUT = R.layout.item_menu
 
             fun create(parent: ViewGroup, viewType: Int): MenuViewHolder {
-                return MenuViewHolder(LayoutInflater.from(parent.context).inflate(LAYOUT, parent, false))
+                return MenuViewHolder(
+                    LayoutInflater.from(parent.context).inflate(
+                        LAYOUT,
+                        parent,
+                        false
+                    )
+                )
             }
         }
     }

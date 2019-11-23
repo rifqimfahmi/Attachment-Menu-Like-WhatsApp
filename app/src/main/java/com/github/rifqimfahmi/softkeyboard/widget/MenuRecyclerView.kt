@@ -1,4 +1,4 @@
-package com.github.rifqimfahmi.softkeyboard
+package com.github.rifqimfahmi.softkeyboard.widget
 
 import android.content.Context
 import android.content.res.Resources
@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.rifqimfahmi.softkeyboard.adapter.GridMenuAdapter
 import kotlin.math.ceil
 
 class MenuRecyclerView: RecyclerView {

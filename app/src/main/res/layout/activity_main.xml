@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_send_black_24dp" />
 
-    <com.github.rifqimfahmi.softkeyboard.MenuEditText
+    <com.github.rifqimfahmi.softkeyboard.widget.MenuEditText
         android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.rifqimfahmi.softkeyboard.adapter.ChatAdapter
+import com.github.rifqimfahmi.softkeyboard.widget.MenuEditText
+import com.github.rifqimfahmi.softkeyboard.widget.SoftKeyBoardPopup
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -28,7 +30,12 @@ class MainActivity : AppCompatActivity(), MenuEditText.PopupListener {
 
         editText.popupListener = this
 
-        menuKeyboard = SoftKeyBoardPopup(this, rootView, editText, menu_chat)
+        menuKeyboard = SoftKeyBoardPopup(
+            this,
+            rootView,
+            editText,
+            menu_chat
+        )
 
         menu_chat.setOnClickListener {
             toggle()

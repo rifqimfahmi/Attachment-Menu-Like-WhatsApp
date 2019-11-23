@@ -1,4 +1,4 @@
-package com.github.rifqimfahmi.softkeyboard
+package com.github.rifqimfahmi.softkeyboard.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
