@@ -30,6 +30,8 @@ class SoftKeyBoardPopup(
 
     private var DEFAULT_KEYBOARD_HEIGHT = 281.toPx()
     private val KEYBOARD_OFFSET = 100
+    private val defaultHorizontalMargin = 16.toPx()
+    private val defaultBottomMargin = 6.toPx()
 
     private var isKeyboardOpened = false
     private var isShowAtTop = false
@@ -146,11 +148,11 @@ class SoftKeyBoardPopup(
     private fun showAtTop() {
         isShowAtTop = true
         isFocusable = true
-        setSize(rootView.width - 16.toPx(), keyboardHeight)
+        setSize(rootView.width - defaultHorizontalMargin, keyboardHeight)
         val windowRect = Rect().apply {
             rootView.getWindowVisibleDisplayFrame(this)
         }
-        val y = windowRect.bottom - keyboardHeight - (rootView.bottom - anchorView.top) - 6.toPx()
+        val y = windowRect.bottom - keyboardHeight - (rootView.bottom - anchorView.top) - defaultBottomMargin
         showAtLocation(rootView, Gravity.TOP, 0, y)
     }
 
