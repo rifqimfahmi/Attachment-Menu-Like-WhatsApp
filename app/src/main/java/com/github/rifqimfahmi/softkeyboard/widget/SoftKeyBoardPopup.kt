@@ -2,6 +2,7 @@ package com.github.rifqimfahmi.softkeyboard.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
@@ -37,7 +38,6 @@ class SoftKeyBoardPopup(
 
     init {
         initConfig()
-        initEditText()
         initKeyboardListener()
         initMenuView()
     }
@@ -53,12 +53,6 @@ class SoftKeyBoardPopup(
                 return@setTouchInterceptor true
             }
             return@setTouchInterceptor false
-        }
-    }
-
-    private fun initEditText() {
-        editText.setOnClickListener {
-            showKeyBoard()
         }
     }
 
@@ -132,12 +126,7 @@ class SoftKeyBoardPopup(
     }
 
     private fun getScreenHeight(): Int {
-        val metrics = DisplayMetrics()
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-
-        windowManager.defaultDisplay.getMetrics(metrics)
-
-        return metrics.heightPixels
+        return Resources.getSystem().displayMetrics.heightPixels
     }
 
     private fun getStatusBarHeight(): Int {
@@ -207,12 +196,6 @@ class SoftKeyBoardPopup(
     private fun calculateCenterX(): Int {
         val viewCenter = triggerView.width / 2
         return triggerView.left + viewCenter
-    }
-
-    private fun showKeyBoard() {
-        if (isShowing) {
-            dismiss()
-        }
     }
 
     fun clear() {
