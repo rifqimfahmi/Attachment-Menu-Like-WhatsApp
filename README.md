@@ -2,4 +2,4 @@
 How to implement attachment menu like WhatsApp using PopupWindow on Android
 
 ## Demo
-![Demo](https://raw.githubusercontent.com/rifqimfahmi/Attachment-Menu-Like-WhatsApp/master/demo/demo.gif)
+![Demo](https://raw.githubusercontent.com/rifqimfahmi/Attachment-Menu-Like-WhatsApp/master/demo/demo_small.gif)
