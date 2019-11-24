@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(), MenuEditText.PopupListener {
             this,
             rootView,
             editText,
-            editText
+            editText,
+            menuChatContainer
         )
 
         menu_chat.setOnClickListener {

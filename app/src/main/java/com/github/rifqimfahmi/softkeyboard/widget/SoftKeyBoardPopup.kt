@@ -19,7 +19,8 @@ class SoftKeyBoardPopup(
     private val context: Context,
     private val rootView: ViewGroup,
     private val editText: EditText,
-    private val anchorView: View
+    private val anchorView: View,
+    private val triggerView: View
 ) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener {
 
     private lateinit var view: View
@@ -198,8 +199,8 @@ class SoftKeyBoardPopup(
     }
 
     private fun calculateCenterX(): Int {
-        val viewCenter = anchorView.width / 2
-        return anchorView.left + viewCenter
+        val viewCenter = triggerView.width / 2
+        return triggerView.left + viewCenter
     }
 
     private fun showKeyBoard() {
