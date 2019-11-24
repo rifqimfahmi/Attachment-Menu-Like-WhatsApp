@@ -5,7 +5,7 @@
     android:padding="24dp"
     android:background="#ffffff">
 
-    <com.github.rifqimfahmi.softkeyboard.MenuRecyclerView
+    <com.github.rifqimfahmi.softkeyboard.widget.MenuRecyclerView
         android:id="@+id/rvMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
