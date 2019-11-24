@@ -20,8 +20,7 @@ class MenGridDecoration : RecyclerView.ItemDecoration() {
         val manager = parent.layoutManager as GridLayoutManager
         val spanCount = manager.spanCount
         val totalItem = manager.itemCount
-        val lineCount = ceil(totalItem / spanCount.toDouble()).toInt()
-        val noMarginLine = lineCount
+        val noMarginLine = ceil(totalItem / spanCount.toDouble()).toInt()
         val position = parent.getChildLayoutPosition(view)
 
         if (position == RecyclerView.NO_POSITION) super.getItemOffsets(outRect, view, parent, state)
