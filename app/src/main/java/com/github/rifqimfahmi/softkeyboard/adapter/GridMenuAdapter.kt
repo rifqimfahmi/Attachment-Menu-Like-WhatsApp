@@ -3,36 +3,47 @@ package com.github.rifqimfahmi.softkeyboard.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.github.rifqimfahmi.softkeyboard.R
 import kotlinx.android.synthetic.main.item_menu.view.*
 
-class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
+class GridMenuAdapter : RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
+
+    var listener: GridMenuListener? = null
 
     private val menus = arrayListOf(
         Menu(
-            "Produk",
-            R.drawable.ic_group_2
+            "Document",
+            R.drawable.ic_document
         ),
         Menu(
-            "Gambar",
-            R.drawable.gambar
+            "Camera",
+            R.drawable.ic_camera
         ),
         Menu(
-            "PDF",
-            R.drawable.pdf
+            "Gallery",
+            R.drawable.ic_gallery
         ),
         Menu(
-            "Invoice",
-            R.drawable.invoice
+            "Audio",
+            R.drawable.ic_volume
         ),
         Menu(
-            "Voucher",
-            R.drawable.voucher
+            "Location",
+            R.drawable.ic_location
+        ),
+        Menu(
+            "Contact",
+            R.drawable.ic_contact
         )
     )
+
+    interface GridMenuListener {
+        fun dismissPopup()
+    }
 
     private val data = ArrayList<Menu>().apply {
         addAll(menus)
@@ -50,25 +61,23 @@ class GridMenuAdapter: RecyclerView.Adapter<GridMenuAdapter.MenuViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(data[position])
-    }
-
-    fun updateDataCount(value: Int) {
-        data.clear()
-        val number = menus.size - 1
-        for (i in 0 until value) {
-            val randomIndex = (0..number).random()
-            data.add(menus[randomIndex])
-        }
-        notifyDataSetChanged()
+        holder.bind(data[position], listener)
     }
 
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(menu: Menu) {
+        fun bind(
+            menu: Menu,
+            listener: GridMenuListener?
+        ) {
             with(itemView) {
                 tvTitle.text = menu.name
                 ivIcon.setImageDrawable(ContextCompat.getDrawable(context, menu.drawable))
+                itemView.setOnClickListener {
+                    Toast.makeText(it.context, "Menu ${menu.name} clicked", Toast.LENGTH_SHORT)
+                        .show()
+                    listener?.dismissPopup()
+                }
             }
         }
 

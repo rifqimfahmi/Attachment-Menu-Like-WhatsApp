@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.rifqimfahmi.softkeyboard.adapter.GridMenuAdapter
-import com.github.rifqimfahmi.softkeyboard.widget.decoration.MenGridDecoration
+import com.github.rifqimfahmi.softkeyboard.widget.decoration.MenuGridDecoration
 
 class MenuRecyclerView : RecyclerView {
 
@@ -28,10 +28,11 @@ class MenuRecyclerView : RecyclerView {
         setHasFixedSize(true)
         layoutManager = manager
         setAdapter(adapter)
-        addItemDecoration(MenGridDecoration())
+        addItemDecoration(MenuGridDecoration())
     }
 
-    fun updateDataCount(value: Int) {
-        adapter.updateDataCount(value)
+    fun addMenuClickListener(listener: GridMenuAdapter.GridMenuListener) {
+        adapter.listener = listener
     }
+
 }

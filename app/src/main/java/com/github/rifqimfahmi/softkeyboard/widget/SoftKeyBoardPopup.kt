@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.core.animation.addListener
 import com.github.rifqimfahmi.softkeyboard.R
+import com.github.rifqimfahmi.softkeyboard.adapter.GridMenuAdapter
 import com.github.rifqimfahmi.softkeyboard.util.toPx
 import kotlin.math.sqrt
 
@@ -21,7 +22,8 @@ class SoftKeyBoardPopup(
     private val editText: EditText,
     private val anchorView: View,
     private val triggerView: View
-) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener {
+) : PopupWindow(context), ViewTreeObserver.OnGlobalLayoutListener,
+    GridMenuAdapter.GridMenuListener {
 
     private lateinit var view: View
 
@@ -72,6 +74,10 @@ class SoftKeyBoardPopup(
 
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             revealView()
+        }
+
+        view.findViewById<MenuRecyclerView>(R.id.rvMenu).apply {
+            addMenuClickListener(this@SoftKeyBoardPopup)
         }
 
         contentView = view
@@ -217,8 +223,7 @@ class SoftKeyBoardPopup(
         }
     }
 
-    fun updateMenuCount(value: Int) {
-        val rv: MenuRecyclerView = view.findViewById(R.id.rvMenu)
-        rv.updateDataCount(value)
+    override fun dismissPopup() {
+        dismiss()
     }
 }

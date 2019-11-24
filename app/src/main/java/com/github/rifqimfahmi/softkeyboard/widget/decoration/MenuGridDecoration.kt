@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.rifqimfahmi.softkeyboard.util.toPx
 import kotlin.math.ceil
 
-class MenGridDecoration : RecyclerView.ItemDecoration() {
+class MenuGridDecoration : RecyclerView.ItemDecoration() {
 
     private val marginBottom = 16.toPx()
 
