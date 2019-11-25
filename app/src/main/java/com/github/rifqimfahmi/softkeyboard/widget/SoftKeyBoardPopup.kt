@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Build
-import android.util.DisplayMetrics
 import android.view.*
 import android.view.WindowManager.LayoutParams
 import android.view.inputmethod.InputMethodManager
@@ -62,6 +61,26 @@ class SoftKeyBoardPopup(
         rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
     }
 
+    override fun onGlobalLayout() {
+        val screenHeight = getScreenHeight()
+        val windowRect = Rect().apply {
+            rootView.getWindowVisibleDisplayFrame(this)
+        }
+        val windowHeight = windowRect.bottom - windowRect.top
+        val statusBarHeight = getStatusBarHeight()
+
+        val heightDifference = screenHeight - windowHeight - statusBarHeight
+
+        if (heightDifference > KEYBOARD_OFFSET) {
+            keyboardHeight = heightDifference
+            isKeyboardOpened = true
+        } else {
+            isKeyboardOpened = false
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+            dismiss()
+        }
+    }
+
     @SuppressLint("InflateParams")
     private fun initMenuView() {
         view = LayoutInflater
@@ -84,26 +103,6 @@ class SoftKeyBoardPopup(
             showAtTop()
         } else {
             showOverKeyboard()
-        }
-    }
-
-    override fun onGlobalLayout() {
-        val screenHeight = getScreenHeight()
-        val windowRect = Rect().apply {
-            rootView.getWindowVisibleDisplayFrame(this)
-        }
-        val windowHeight = windowRect.bottom - windowRect.top
-        val statusBarHeight = getStatusBarHeight()
-
-        val heightDifference = screenHeight - windowHeight - statusBarHeight
-
-        if (heightDifference > KEYBOARD_OFFSET) {
-            keyboardHeight = heightDifference
-            isKeyboardOpened = true
-        } else {
-            isKeyboardOpened = false
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-            dismiss()
         }
     }
 
@@ -152,7 +151,8 @@ class SoftKeyBoardPopup(
         val windowRect = Rect().apply {
             rootView.getWindowVisibleDisplayFrame(this)
         }
-        val y = windowRect.bottom - keyboardHeight - (rootView.bottom - anchorView.top) - defaultBottomMargin
+        val y =
+            windowRect.bottom - keyboardHeight - (rootView.bottom - anchorView.top) - defaultBottomMargin
         showAtLocation(rootView, Gravity.TOP, 0, y)
     }
 
